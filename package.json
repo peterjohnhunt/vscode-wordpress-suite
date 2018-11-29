@@ -4,6 +4,10 @@
     "description": "",
     "version": "0.0.1",
     "publisher": "peterjohnhunt",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/peterjohnhunt/vscode-wordpress-suite.git"
+    },
     "engines": {
         "vscode": "^1.29.0"
     },
