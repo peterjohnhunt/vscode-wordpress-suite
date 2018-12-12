@@ -5,28 +5,24 @@ export class Site {
     private _folders = [];
 
     constructor(sitePath) {
-        this._setRoot(sitePath);
-        this.addFolder(sitePath);
+        this.setRoot(sitePath);
+        this.addRelatedFolder(sitePath);
     }
 
-    private _addFolder(folderPath) {
+    private addFolder(folderPath) {
         this._folders.push(folderPath);
     }
 
-    private _removeFolder(index) {
+    private removeFolder(index) {
         this._folders.splice(index,1);
     }
 
-    private _setRoot(folderPath){
+    private setRoot(folderPath){
         this._root = folderPath.split(path.sep+'wp-content', 1).shift();
     }
 
-    private _getFolders() {
-        return this._folders;
-    }
-
-    private _hasFolder(folderPath) {
-        let folders = this._getFolders();
+    private isRelatedFolder(folderPath) {
+        let folders = this.getFolders();
 
         for (let index = 0; index < folders.length; index++) {
             let folder = folders[index];
@@ -39,28 +35,37 @@ export class Site {
         return -1;
     }
 
+    public getFolders() {
+        return this._folders;
+    }
+
     public getRoot() {
         return this._root;
     }
 
-    public addFolder(folderPath) {
-        let index = this._hasFolder(folderPath);
+    public getName() {
+        let root = this.getRoot();
+        return path.basename(root).toUpperCase();
+    }
+
+    public addRelatedFolder(folderPath) {
+        let index = this.isRelatedFolder(folderPath);
 
         if (index > -1) return;
 
-        this._addFolder(folderPath);
+        this.addFolder(folderPath);
     }
 
-    public removeFolder(folderPath) {
-        let index = this._hasFolder(folderPath);
+    public removeRelatedFolder(folderPath) {
+        let index = this.isRelatedFolder(folderPath);
         
         if (index === -1) return;
 
-        this._removeFolder(index);
+        this.removeFolder(index);
     }
 
-    public hasFolders(){
-        return (this._getFolders().length > 0);
+    public hasRelatedFolders(){
+        return (this.getFolders().length > 0);
     }
 
     public isFolderRelated(folderPath) {

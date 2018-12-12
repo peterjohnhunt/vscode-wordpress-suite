@@ -1,9 +1,11 @@
+import * as path from 'path';
+
 import { Site } from './class-site';
 
 export class Sites {
     private _sites: Site[] = [];
 
-    public addSite(folderPath) {
+    public addSite(folderPath, callback: any = false) {
         let site;
         let index = this._siteExists(folderPath);
 
@@ -12,25 +14,34 @@ export class Sites {
             this._addSite(site);
         } else {
             site = this._getSite(index);
-            site.addFolder(folderPath);
+            site.addRelatedFolder(folderPath);
+        }
+
+        if (callback) {
+            callback(site);
         }
     }
 
-    public removeSite(folderPath){
+    public removeSite(folderPath, callback: any = false){
+        let site;
         let index = this._siteExists(folderPath);
 
         if (index > -1) {
-            let site = this._getSite(index);
-            site.removeFolder(folderPath);
+            site = this._getSite(index);
+            site.removeRelatedFolder(folderPath);
 
-            if (!site.hasFolders()) {
+            if (!site.hasRelatedFolders()) {
                 this._removeSite(index)
             }
         }
+
+        if (callback) {
+            callback(site);
+        }
     }
 
-    public getSite(folderPath) {
-        let index = this._siteExists(folderPath);
+    public getSite(id:any = false) {
+        let index = id ? this._siteExists(id) : 0;
 
         if ( index === -1 ) return;
         
@@ -39,6 +50,10 @@ export class Sites {
 
     public getSites() {
         return this._sites;
+    }
+
+    public hasSites() {
+        return (this.getSites().length > 0) ? true : false;
     }
 
     private _addSite(site) {
@@ -50,20 +65,26 @@ export class Sites {
     }
 
     private _getSite(index){
-        let sites = this.getSites();
+        const sites = this.getSites();
+
+        if (!sites.length) return;
 
         return sites[index];
     }
 
-    private _siteExists(folderPath) {
-        let sites = this.getSites();
+    private _siteExists(id) {
+        const sites = this.getSites();
 
         if (sites.length === 0) return -1;
+
+        const type = path.basename(id) === id ? 'name' : 'path';
 
         for (let index = 0; index < sites.length; index++) {
             let site: any = sites[index];
 
-            if (site.isFolderRelated(folderPath)) {
+            if (type == 'path' && site.isFolderRelated(id)) {
+                return index;
+            } else if (type == 'name' && site.getName() == id){
                 return index;
             }
         }

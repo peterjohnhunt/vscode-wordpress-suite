@@ -1,0 +1,1 @@
+https://github.com/Microsoft/vscode/blob/master/extensions/git/src/model.ts

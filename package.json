@@ -15,10 +15,28 @@
         "Other"
     ],
     "activationEvents": [
+        "onView:wordpress-suite",
         "workspaceContains:**/*.php"
     ],
     "main": "./out/extension",
     "contributes": {
+        "viewsContainers": {
+            "activitybar": [
+                {
+                    "id": "wordpress-suite",
+                    "title": "WordPress Suite",
+                    "icon": "out/assets/logo.svg"
+                }
+            ]
+        },
+        "views": {
+            "wordpress-suite": [
+                {
+                    "id": "wordpress-suite",
+                    "name": "WordPress Suite"
+                }
+            ]
+        },
         "commands": [
             {
                 "command": "extension.add-root",
@@ -30,7 +48,8 @@
             "explorer/context": [
                 {
                     "command": "extension.add-root",
-                    "group": "z_commands@1"
+                    "group": "z_commands@1",
+                    "when": "isWordPressSuite && !hasWordPressSuiteRoot"
                 }
             ]
         }
@@ -44,7 +63,7 @@
     },
     "devDependencies": {
         "typescript": "^2.6.1",
-        "vscode": "^1.1.6",
+        "vscode": "^1.1.22",
         "tslint": "^5.8.0",
         "@types/node": "^7.0.43",
         "@types/mocha": "^2.2.42"
