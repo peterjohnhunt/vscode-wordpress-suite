@@ -13,7 +13,7 @@ export function activate(context: ExtensionContext) {
 
     context.subscriptions.push(controller);
 
-    return sites;
+    return controller;
 }
 
 export function deactivate() {

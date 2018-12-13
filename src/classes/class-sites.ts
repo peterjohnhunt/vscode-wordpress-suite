@@ -3,11 +3,20 @@ import * as path from 'path';
 import { Site } from './class-site';
 
 export class Sites {
+    private _active: number = 0;
     private _sites: Site[] = [];
+
+    public setActive(index){
+        this._active = index;
+    }
+
+    public getActive(){
+        return this._getSite(this._active);
+    }
 
     public addSite(folderPath, callback: any = false) {
         let site;
-        let index = this._siteExists(folderPath);
+        let index = this.siteExists(folderPath);
 
         if ( index === -1 ) {
             site = new Site(folderPath);
@@ -24,7 +33,7 @@ export class Sites {
 
     public removeSite(folderPath, callback: any = false){
         let site;
-        let index = this._siteExists(folderPath);
+        let index = this.siteExists(folderPath);
 
         if (index > -1) {
             site = this._getSite(index);
@@ -41,7 +50,7 @@ export class Sites {
     }
 
     public getSite(id:any = false) {
-        let index = id ? this._siteExists(id) : 0;
+        let index = id ? this.siteExists(id) : 0;
 
         if ( index === -1 ) return;
         
@@ -72,19 +81,19 @@ export class Sites {
         return sites[index];
     }
 
-    private _siteExists(id) {
+    public siteExists(id) {
         const sites = this.getSites();
 
         if (sites.length === 0) return -1;
 
-        const type = path.basename(id) === id ? 'name' : 'path';
+        const type = path.basename(id.toString()) == id.toString() ? 'name' : 'path';
 
         for (let index = 0; index < sites.length; index++) {
             let site: any = sites[index];
 
             if (type == 'path' && site.isFolderRelated(id)) {
                 return index;
-            } else if (type == 'name' && site.getName() == id){
+            } else if (type == 'name' && site.getName() === id){
                 return index;
             }
         }
