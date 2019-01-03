@@ -26,7 +26,9 @@ export class Provider implements TreeDataProvider<Item> {
 
                 if (!site) return;
 
-                return site.getFolders().map((folder) => ({ uri: Uri.file(folder), expandable: false }));
+                let folders = site.getFolders();
+
+                return folders.map((folder) => ({ uri: Uri.file(folder), expandable: false }));
             }
 
             return [];
@@ -35,7 +37,7 @@ export class Provider implements TreeDataProvider<Item> {
         const sites = this.sites.getSites();
 
         if (sites.length) {
-            return sites.map((site) => ({ uri: Uri.parse(path.join('wp://site', site.getName())), expandable: true }));
+            return sites.map((site) => ({ uri: Uri.parse(path.join('wp://site', site.getName())), expandable: site.getFolders().length > 1 }));
         }
 
         return [];
@@ -49,10 +51,16 @@ export class Provider implements TreeDataProvider<Item> {
 
 export class Explorer {
 
+    provider: Provider;
     treeView: TreeView<Item>;
 
     constructor(sites: Sites, context: ExtensionContext) {
         const treeDataProvider = new Provider(sites);
+        this.provider = treeDataProvider;
         this.treeView = window.createTreeView('wordpress-suite', { treeDataProvider });
+    }
+
+    refresh() {
+        this.provider.refresh();
     }
 }

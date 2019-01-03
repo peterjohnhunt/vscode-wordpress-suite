@@ -116,6 +116,8 @@ export class SitesController {
 
             this.setContext('hasWordPressSuiteRoot', hasRoot);
         }
+
+        this.explorer.refresh();
     }
 
     private addRoot(uri:any = false){
