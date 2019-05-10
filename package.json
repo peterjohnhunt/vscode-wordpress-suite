@@ -1,74 +1,79 @@
 {
-    "name": "wordpress-suite",
-    "displayName": "WordPress Suite",
-    "description": "",
-    "version": "0.0.4",
-    "publisher": "peterjohnhunt",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/peterjohnhunt/vscode-wordpress-suite.git"
-    },
-    "engines": {
-        "vscode": "^1.29.0"
-    },
-    "categories": [
-        "Other"
-    ],
-    "activationEvents": [
-        "onView:wordpress-suite",
-        "workspaceContains:**/*.php"
-    ],
-    "main": "./out/extension",
-    "contributes": {
-        "viewsContainers": {
-            "activitybar": [
-                {
-                    "id": "wordpress-suite",
-                    "title": "WordPress Suite",
-                    "icon": "out/assets/logo.svg"
-                }
-            ]
-        },
-        "views": {
-            "wordpress-suite": [
-                {
-                    "id": "wordpress-suite",
-                    "name": "WordPress Suite"
-                }
-            ]
-        },
-        "commands": [
-            {
-                "command": "extension.add-root",
-                "title": "Add Root",
-                "category": "WordPress Suite"
-            }
-        ],
-        "menus": {
-            "explorer/context": [
-                {
-                    "command": "extension.add-root",
-                    "group": "z_commands@1",
-                    "when": "isWordPressSuite && !hasWordPressSuiteRoot"
-                }
-            ]
-        }
-    },
-    "scripts": {
-        "vscode:prepublish": "npm run compile",
-        "compile": "tsc -p ./",
-        "watch": "tsc -watch -p ./",
-        "postinstall": "node ./node_modules/vscode/bin/install",
-        "test": "npm run compile && node ./node_modules/vscode/bin/test"
-    },
-    "devDependencies": {
-        "typescript": "^2.6.1",
-        "vscode": "^1.1.22",
-        "tslint": "^5.8.0",
-        "@types/node": "^7.0.43",
-        "@types/mocha": "^2.2.42"
-    },
-    "dependencies": {
-        "vscode-uri": "^1.0.6"
-    }
+	"name": "wordpress-suite",
+	"displayName": "WordPress Suite",
+	"description": "",
+	"version": "0.0.4",
+	"publisher": "peterjohnhunt",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/peterjohnhunt/vscode-wordpress-suite.git"
+	},
+	"engines": {
+		"vscode": "^1.29.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [
+		"onView:wordpress-suite",
+		"workspaceContains:**/*.php"
+	],
+	"main": "./out/extension",
+	"contributes": {
+		"viewsContainers": {
+			"activitybar": [
+				{
+					"id": "wordpress-suite",
+					"title": "WordPress Suite",
+					"icon": "out/assets/logo.svg"
+				}
+			]
+		},
+		"views": {
+			"wordpress-suite": [
+				{
+					"id": "wordpress-suite",
+					"name": "WordPress Suite"
+				}
+			]
+		},
+		"commands": [
+			{
+				"command": "extension.add-root",
+				"title": "Add Root",
+				"category": "WordPress Suite"
+			}
+		],
+		"menus": {
+			"explorer/context": [
+				{
+					"command": "extension.add-root",
+					"group": "z_commands@1",
+					"when": "isWordPressSuite && !hasWordPressSuiteRoot"
+				}
+			]
+		}
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"watch": "tsc -watch -p ./",
+		"postinstall": "node ./node_modules/vscode/bin/install",
+		"test": "npm run compile && node ./node_modules/vscode/bin/test"
+	},
+	"devDependencies": {
+		"typescript": "^2.6.1",
+		"vscode": "^1.1.22",
+		"tslint": "^5.8.0",
+		"@types/node": "^7.0.43",
+		"@types/mocha": "^2.2.42"
+	},
+	"dependencies": {
+		"vscode-uri": "^1.0.6"
+	},
+	"__metadata": {
+		"id": "cb267a83-cb4b-4da8-8803-1daad3099b19",
+		"publisherDisplayName": "peterjohnhunt",
+		"publisherId": "2077a556-4feb-471d-b089-67e06b5bdf6d"
+	}
 }

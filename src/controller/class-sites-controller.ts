@@ -17,6 +17,12 @@ export class SitesController {
     private _onDidChangeSite = new EventEmitter<Site>();
     readonly onDidChangeSite: Event<Site> = this._onDidChangeSite.event;
 
+    private _onDidAddSite = new EventEmitter<Site>();
+    readonly onDidAddSite: Event<Site> = this._onDidAddSite.event;
+
+    private _onDidRemoveSite = new EventEmitter<Site>();
+    readonly onDidRemoveSite: Event<Site> = this._onDidRemoveSite.event;
+
     constructor(sites: Sites, explorer: Explorer) {
         this.sites = sites;
         this.explorer = explorer;
@@ -50,6 +56,7 @@ export class SitesController {
             for (let folder of paths) {
                 this.sites.addSite(folder, site => {
                     if (!site) return;
+                    this._onDidAddSite.fire(site);
                     window.setStatusBarMessage("WordPress Suite: Added " + site.getName(), 3000);
                 });
             }
@@ -60,6 +67,7 @@ export class SitesController {
             for (let folder of paths) {
                 this.sites.removeSite(folder, site => {
                     if (!site) return;
+                    this._onDidRemoveSite.fire(site);
                     window.setStatusBarMessage("WordPress Suite: Removed " + site.getName(), 3000);
                 });
             }
