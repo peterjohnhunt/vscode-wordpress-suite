@@ -34,20 +34,24 @@ export class SitesController {
         this.explorer.treeView.onDidChangeSelection(this.onDidChangeSelection, this, subscriptions);
         subscriptions.push(commands.registerCommand('extension.add-root', this.addRoot, this));
         
-        this._statusBarItem = window.createStatusBarItem(StatusBarAlignment.Right);
-        this._statusBarItem.show();
-        this._statusBarItem.text = 'Loading';
-        subscriptions.push(this._statusBarItem); 
+        subscriptions.push(this.statusBarName());
 
         this.onDidChangeWorkspaceFolders({ added: workspace.workspaceFolders || [], removed: []});
         this.onDidChangeVisibleTextEditors(window.visibleTextEditors);
-        this.onDidUpdateWorspaceContext();
+        this.onDidUpdateWorkspaceContext();
 
         this._disposable = Disposable.from(...subscriptions);
     }
 
     private setContext(key, value){
         commands.executeCommand('setContext', key, value);
+    }
+
+    private statusBarName(){
+        this._statusBarItem = window.createStatusBarItem(StatusBarAlignment.Right);
+        this._statusBarItem.show();
+        this._statusBarItem.text = 'Loading';
+        return this._statusBarItem; 
     }
 
     private onDidChangeWorkspaceFolders({ added, removed }: WorkspaceFoldersChangeEvent) {
@@ -74,7 +78,7 @@ export class SitesController {
         }
 
         if (added.length || removed.length) {
-            this.onDidUpdateWorspaceContext();
+            this.onDidUpdateWorkspaceContext();
         }
     }
 
@@ -104,7 +108,7 @@ export class SitesController {
         this.changeSite(id);
     }
 
-    private onDidUpdateWorspaceContext(){
+    private onDidUpdateWorkspaceContext(){
         this.setContext('isWordPressSuite', this.sites.hasSites());
 
         if (this.sites.hasSites()) {
@@ -154,7 +158,7 @@ export class SitesController {
             if (site) {
                 this._onDidChangeSite.fire(site);
 
-                this.onDidUpdateWorspaceContext();
+                this.onDidUpdateWorkspaceContext();
             }
         }
     }
